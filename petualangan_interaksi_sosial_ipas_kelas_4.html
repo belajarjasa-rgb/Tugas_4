@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Interaksi Sosial - IPAS Kelas 4 SD</title>
+    
+    <!-- Google Fonts: Fredoka (3D Cartoon Friendly) & Nunito (Legible Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Canvas Confetti for Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Tailwind Config for Custom Fonts & Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Fredoka', 'sans-serif'],
+                        body: ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        skyLight: '#E0F2FE',
+                        skyPrimary: '#0EA5E9',
+                        skyDark: '#0284C7',
+                        sunYellow: '#FACC15',
+                        sunDark: '#EAB308',
+                        leafGreen: '#22C55E',
+                        leafDark: '#16A34A',
+                        carrotOrange: '#F97316',
+                        carrotDark: '#EA580C',
+                        berryPurple: '#A855F7',
+                        berryDark: '#9333EA',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ==========================================================================
+           CUSTOM 3D CARTOON UI STYLES & ANIMATIONS
+           ========================================================================== */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #bae6fd 0%, #e0f2fe 50%, #fef9c3 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        h1, h2, h3, .font-cartoon {
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: 0.02em;
+        }
+
+        /* 3D Cartoon Buttons */
+        .btn-3d {
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            top: 0;
+        }
+        .btn-3d:active:not(:disabled) {
+            top: 4px;
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2) !important;
+        }
+        .btn-3d:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-blue {
+            background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+            box-shadow: 0 6px 0 #0369a1, 0 10px 15px rgba(2, 132, 199, 0.3);
+        }
+        .btn-green {
+            background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%);
+            box-shadow: 0 6px 0 #15803d, 0 10px 15px rgba(22, 163, 74, 0.3);
+        }
+        .btn-orange {
+            background: linear-gradient(180deg, #fb923c 0%, #ea580c 100%);
+            box-shadow: 0 6px 0 #c2410c, 0 10px 15px rgba(234, 88, 12, 0.3);
+        }
+        .btn-yellow {
+            background: linear-gradient(180deg, #fde047 0%, #eab308 100%);
+            box-shadow: 0 6px 0 #ca8a04, 0 10px 15px rgba(234, 179, 8, 0.3);
+            color: #422006;
+        }
+        .btn-purple {
+            background: linear-gradient(180deg, #c084fc 0%, #9333ea 100%);
+            box-shadow: 0 6px 0 #7e22ce, 0 10px 15px rgba(147, 51, 234, 0.3);
+        }
+        .btn-white {
+            background: #ffffff;
+            box-shadow: 0 5px 0 #cbd5e1, 0 8px 15px rgba(0, 0, 0, 0.08);
+            border: 2px solid #e2e8f0;
+        }
+
+        /* 3D Cartoon Cards */
+        .card-3d {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 28px;
+            box-shadow: 0 12px 0 rgba(14, 165, 233, 0.15), 0 20px 30px rgba(0, 0, 0, 0.08);
+            border: 4px solid #ffffff;
+        }
+
+        .menu-card {
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        .menu-card:active {
+            transform: translateY(2px) scale(0.98);
+        }
+
+        /* Floating Clouds & Elements Animation */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.9) translateY(15px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .page-enter {
+            animation: popIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7); }
+            50% { box-shadow: 0 0 0 12px rgba(250, 204, 21, 0); }
+        }
+        .pulse-highlight {
+            animation: pulseGlow 2s infinite;
+        }
+
+        /* Background Decorative Bubbles */
+        .bg-bubble {
+            position: fixed;
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.45;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e0f2fe;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #38bdf8;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col justify-between">
+
+    <!-- Decorative Background Elements -->
+    <div class="bg-bubble w-64 h-64 bg-yellow-300 -top-16 -left-16"></div>
+    <div class="bg-bubble w-96 h-96 bg-sky-300 top-1/3 -right-24"></div>
+    <div class="bg-bubble w-72 h-72 bg-green-300 -bottom-16 left-1/4"></div>
+
+    <!-- Custom Notification Toast / Modal (Replaces alert) -->
+    <div id="customToast" class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 hidden transition-all duration-300">
+        <div id="toastContent" class="flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border-4 border-white font-bold text-white text-base md:text-lg bg-orange-500">
+            <span id="toastIcon" class="text-2xl">⚠️</span>
+            <span id="toastMessage">Pesan notifikasi</span>
+        </div>
+    </div>
+
+    <!-- TOP NAVIGATION BAR (Hidden on Page 1 Cover) -->
+    <header id="topNavbar" class="hidden sticky top-0 z-40 px-3 py-2 md:px-6 md:py-3">
+        <div class="max-w-5xl mx-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-lg border-2 border-sky-200 px-3 py-2 md:px-5 md:py-3 flex flex-wrap items-center justify-between gap-2">
+            <!-- Student Info Badge -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white text-xl shadow-md">
+                    🎒
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-sky-600 uppercase tracking-wider">Petualang IPAS</p>
+                    <p id="navStudentName" class="font-cartoon text-sm md:text-base text-slate-800 leading-tight">Siswa Kelas 4</p>
+                </div>
+            </div>
+
+            <!-- Navigation Action Buttons -->
+            <div class="flex items-center gap-1.5 md:gap-2">
+                <button onclick="playClick(); goHome()" title="Ke Menu Utama" class="btn-3d btn-white px-3 py-2 rounded-xl font-bold text-xs md:text-sm text-sky-700 flex items-center gap-1 hover:bg-sky-50">
+                    <span>🏠</span> <span class="hidden sm:inline">HOME</span>
+                </button>
+                <button id="btnNavBack" onclick="playClick(); goBack()" title="Halaman Sebelumnya" class="btn-3d btn-white px-3 py-2 rounded-xl font-bold text-xs md:text-sm text-amber-700 flex items-center gap-1 hover:bg-amber-50">
+                    <span>🔙</span> <span class="hidden sm:inline">KEMBALI</span>
+                </button>
+                <button id="btnNavNext" onclick="playClick(); goNext()" title="Halaman Berikutnya" class="btn-3d btn-white px-3 py-2 rounded-xl font-bold text-xs md:text-sm text-emerald-700 flex items-center gap-1 hover:bg-emerald-50">
+                    <span class="hidden sm:inline">LANJUT</span> <span>➡️</span>
+                </button>
+                <button onclick="playClick(); toggleSound()" id="btnSoundToggle" title="Suara Efek" class="btn-3d btn-white px-3 py-2 rounded-xl font-bold text-xs md:text-sm text-purple-700">
+                    🔊
+                </button>
+                <button onclick="playClick(); toggleFullscreen()" title="Layar Penuh" class="btn-3d btn-white px-3 py-2 rounded-xl font-bold text-xs md:text-sm text-slate-700 flex items-center gap-1">
+                    <span>⛶</span> <span class="hidden md:inline">FULLSCREEN</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APPLICATION VIEWPORT -->
+    <main class="flex-grow flex items-center justify-center p-3 md:p-6">
+        <div id="appContainer" class="w-full max-w-5xl">
+
+            <!-- =====================================================================
+                 PAGE 1: HALAMAN PEMBUKA (COVER & INPUT NAMA)
+                 ===================================================================== -->
+            <section id="page-1" class="page-section page-enter">
+                <div class="card-3d p-6 md:p-10 text-center relative overflow-hidden">
+                    <!-- Top Ribbon Badge -->
+                    <div class="inline-flex items-center gap-2 bg-sky-100 border-2 border-sky-300 text-sky-800 px-4 py-1.5 rounded-full font-extrabold text-xs md:text-sm mb-4 shadow-sm">
+                        <span>🌟</span> IPAS KELAS 4 SD • FASE B <span>🌟</span>
+                    </div>
+
+                    <!-- Big Title & Subtitle -->
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-blue-600 to-indigo-600 drop-shadow-sm mb-3">
+                        PETUALANGAN INTERAKSI SOSIAL
+                    </h1>
+                    <p class="text-base sm:text-lg md:text-xl font-bold text-slate-600 max-w-2xl mx-auto mb-6">
+                        Kenali Peran, Tugas, Tanggung Jawab, dan Interaksi Sosial di Sekitarmu!
+                    </p>
+
+                    <!-- Custom 3D Cartoon SVG Illustration of Elementary Students Collaborating -->
+                    <div class="max-w-2xl mx-auto mb-7 animate-float">
+                        <div class="bg-gradient-to-b from-sky-100 via-emerald-50 to-amber-100 rounded-3xl p-4 border-4 border-white shadow-inner">
+                            <svg viewBox="0 0 800 260" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Sun & Clouds -->
+                                <circle cx="710" cy="50" r="32" fill="#FACC15" stroke="#FEF08A" stroke-width="6"/>
+                                <path d="M90 55 Q105 35 125 45 Q145 30 165 48 Q185 48 185 65 L85 65 Q75 65 90 55 Z" fill="#FFFFFF" opacity="0.9"/>
+                                <path d="M520 40 Q535 22 555 32 Q570 20 588 36 Q605 36 605 50 L515 50 Q505 50 520 40 Z" fill="#FFFFFF" opacity="0.85"/>
+                                
+                                <!-- School Building Silhouette -->
+                                <rect x="310" y="55" width="180" height="125" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="4"/>
+                                <polygon points="295,60 400,15 505,60" fill="#EF4444" stroke="#B91C1C" stroke-width="4"/>
+                                <rect x="375" y="115" width="50" height="65" rx="6" fill="#92400E"/>
+                                <rect x="330" y="80" width="32" height="32" rx="6" fill="#7DD3FC" stroke="#0284C7" stroke-width="3"/>
+                                <rect x="438" y="80" width="32" height="32" rx="6" fill="#7DD3FC" stroke="#0284C7" stroke-width="3"/>
+                                <circle cx="400" cy="42" r="11" fill="#FFFFFF" stroke="#B91C1C" stroke-width="2"/>
+
+                                <!-- Ground / Grass -->
+                                <path d="M20 220 Q400 175 780 220 L780 250 L20 250 Z" fill="#4ADE80"/>
+                                <path d="M20 232 Q400 195 780 232 L780 250 L20 250 Z" fill="#22C55E"/>
+
+                                <!-- Activity 1: Two Kids Studying & Sharing Books (Left) -->
+                                <g transform="translate(80, 105)">
+                                    <!-- Kid 1 -->
+                                    <circle cx="45" cy="35" r="24" fill="#FDBA74"/>
+                                    <path d="M21 30 Q45 5 69 30 Z" fill="#1E293B"/>
+                                    <circle cx="38" cy="34" r="3" fill="#1E293B"/>
+                                    <circle cx="52" cy="34" r="3" fill="#1E293B"/>
+                                    <path d="M40 43 Q45 48 50 43" stroke="#9A3412" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                                    <rect x="25" y="60" width="40" height="45" rx="12" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+                                    <path d="M25 82 L65 82 L68 108 L22 108 Z" fill="#DC2626"/>
+                                    <!-- Book -->
+                                    <rect x="52" y="68" width="34" height="24" rx="4" fill="#38BDF8" stroke="#0284C7" stroke-width="2"/>
+                                    <!-- Kid 2 -->
+                                    <circle cx="115" cy="38" r="23" fill="#FED7AA"/>
+                                    <path d="M90 38 Q90 10 115 10 Q140 10 140 38 L136 56 L94 56 Z" fill="#EC4899"/>
+                                    <circle cx="108" cy="37" r="3" fill="#1E293B"/>
+                                    <circle cx="122" cy="37" r="3" fill="#1E293B"/>
+                                    <path d="M110 46 Q115 51 120 46" stroke="#9A3412" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                                    <rect x="96" y="62" width="38" height="45" rx="12" fill="#FFFFFF"/>
+                                    <path d="M96 84 L134 84 L138 110 L92 110 Z" fill="#DC2626"/>
+                                </g>
+
+                                <!-- Activity 2: Teacher & Student Greeting (Center) -->
+                                <g transform="translate(335, 95)">
+                                    <!-- Teacher -->
+                                    <circle cx="40" cy="30" r="24" fill="#FDBA74"/>
+                                    <path d="M15 28 Q40 -2 65 28 L62 50 L18 50 Z" fill="#0D9488"/>
+                                    <circle cx="33" cy="29" r="3" fill="#1E293B"/>
+                                    <circle cx="47" cy="29" r="3" fill="#1E293B"/>
+                                    <path d="M34 38 Q40 44 46 38" stroke="#9A3412" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                                    <rect x="18" y="55" width="44" height="65" rx="14" fill="#14B8A6"/>
+                                    <!-- Student waving -->
+                                    <circle cx="105" cy="48" r="22" fill="#FED7AA"/>
+                                    <path d="M83 42 Q105 18 127 42 Z" fill="#0F172A"/>
+                                    <circle cx="98" cy="47" r="2.8" fill="#1E293B"/>
+                                    <circle cx="112" cy="47" r="2.8" fill="#1E293B"/>
+                                    <path d="M100 55 Q105 60 110 55" stroke="#9A3412" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                                    <rect x="86" y="71" width="38" height="48" rx="12" fill="#FFFFFF"/>
+                                    <path d="M86 92 L124 92 L127 118 L83 118 Z" fill="#DC2626"/>
+                                    <!-- Speech heart -->
+                                    <circle cx="72" cy="18" r="14" fill="#FFFFFF" stroke="#F43F5E" stroke-width="2"/>
+                                    <text x="72" y="23" font-size="14" text-anchor="middle">❤️</text>
+                                </g>
+
+                                <!-- Activity 3: Kids Cleaning Environment Together (Right) -->
+                                <g transform="translate(555, 105)">
+                                    <!-- Trash Bin -->
+                                    <rect x="105" y="65" width="36" height="45" rx="6" fill="#22C55E" stroke="#15803D" stroke-width="3"/>
+                                    <rect x="101" y="58" width="44" height="8" rx="4" fill="#16A34A"/>
+                                    <text x="123" y="93" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">♻️</text>
+                                    <!-- Kid with Broom -->
+                                    <circle cx="55" cy="36" r="23" fill="#FDBA74"/>
+                                    <path d="M32 30 Q55 6 78 30 Z" fill="#334155"/>
+                                    <circle cx="48" cy="35" r="3" fill="#1E293B"/>
+                                    <circle cx="62" cy="35" r="3" fill="#1E293B"/>
+                                    <path d="M50 44 Q55 49 60 44" stroke="#9A3412" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                                    <rect x="36" y="60" width="38" height="48" rx="12" fill="#FFFFFF"/>
+                                    <path d="M36 82 L74 82 L77 108 L33 108 Z" fill="#DC2626"/>
+                                    <!-- Broom -->
+                                    <line x1="82" y1="45" x2="92" y2="105" stroke="#92400E" stroke-width="5" stroke-linecap="round"/>
+                                    <polygon points="82,102 102,102 106,116 78,116" fill="#F59E0B"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-2 mt-3 text-xs md:text-sm font-bold text-slate-600">
+                            <span class="bg-white px-3 py-1 rounded-full shadow-sm">📖 Belajar Bersama</span>
+                            <span class="bg-white px-3 py-1 rounded-full shadow-sm">🤝 Bekerja Sama</span>
+                            <span class="bg-white px-3 py-1 rounded-full shadow-sm">🧹 Menjaga Lingkungan</span>
+                            <span class="bg-white px-3 py-1 rounded-full shadow-sm">👋 Menghormati Guru</span>
+                        </div>
+                    </div>
+
+                    <!-- Student Input Form -->
+                    <div class="max-w-md mx-auto bg-sky-50/90 p-5 md:p-6 rounded-3xl border-2 border-sky-200 shadow-inner">
+                        <div class="mb-4 text-left">
+                            <label for="inputStudentName" class="block font-cartoon text-sky-900 text-base md:text-lg mb-1.5">
+                                ✏️ NAMA LENGKAP SISWA <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="inputStudentName" placeholder="Ketik nama lengkapmu di sini..." 
+                                class="w-full px-4 py-3.5 rounded-2xl border-3 border-sky-300 focus:border-sky-500 focus:outline-none text-base md:text-lg font-bold text-slate-800 bg-white shadow-sm transition"
+                                autocomplete="off">
+                        </div>
+
+                        <div class="mb-5 text-left">
+                            <label for="inputStudentClass" class="block font-cartoon text-sky-900 text-sm md:text-base mb-1.5">
+                                🏫 KELAS
+                            </label>
+                            <select id="inputStudentClass" class="w-full px-4 py-3 rounded-2xl border-2 border-sky-300 focus:border-sky-500 focus:outline-none text-base font-bold text-slate-800 bg-white shadow-sm">
+                                <option value="4A">Kelas 4A</option>
+                                <option value="4B">Kelas 4B</option>
+                                <option value="4C">Kelas 4C</option>
+                                <option value="4">Kelas 4</option>
+                            </select>
+                        </div>
+
+                        <button onclick="startAdventure()" class="btn-3d btn-orange w-full py-4 px-6 rounded-2xl font-cartoon text-xl md:text-2xl text-white tracking-wide flex items-center justify-center gap-3 cursor-pointer">
+                            <span>🚀</span> MULAI PETUALANGAN
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================================
+                 PAGE 2: DASHBOARD / MENU UTAMA
+                 ===================================================================== -->
+            <section id="page-2" class="page-section hidden page-enter">
+                <div class="card-3d p-6 md:p-8">
+                    <div class="text-center mb-8">
+                        <span class="inline-block bg-amber-100 text-amber-800 font-extrabold px-4 py-1 rounded-full text-xs md:text-sm mb-2 border border-amber-300">
+                            🗺️ PETA PETUALANGAN BELAJAR
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-800">
+                            Halo, <span id="dashStudentName" class="text-sky-600">Petualang</span>! 👋
+                        </h2>
+                        <p class="text-slate-600 font-semibold mt-1 text-sm md:text-base">
+                            Pilih kartu petualangan di bawah ini untuk memulai belajar IPAS!
+                        </p>
+                    </div>
+
+                    <!-- 4 Main Navigation Big Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+                        <!-- Card 1: TUJUAN -->
+                        <button onclick="playClick(); navigateTo('page-3')" class="menu-card text-left bg-gradient-to-br from-amber-400 to-orange-500 p-6 rounded-3xl text-white shadow-xl border-4 border-white flex items-center gap-5 cursor-pointer">
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-white/25 backdrop-blur-sm rounded-2xl flex items-center justify-center text-4xl md:text-5xl shrink-0 shadow-inner">
+                                🎯
+                            </div>
+                            <div>
+                                <span class="text-xs font-extrabold uppercase tracking-wider bg-black/15 px-2.5 py-0.5 rounded-full">Langkah 1</span>
+                                <h3 class="text-2xl md:text-3xl font-bold mt-1">TUJUAN</h3>
+                                <p class="text-white/90 text-xs md:text-sm font-semibold mt-1">Lihat target kemampuan yang akan kamu kuasai.</p>
+                            </div>
+                        </button>
+
+                        <!-- Card 2: MATERI -->
+                        <button onclick="playClick(); navigateTo('page-4')" class="menu-card text-left bg-gradient-to-br from-sky-400 to-blue-600 p-6 rounded-3xl text-white shadow-xl border-4 border-white flex items-center gap-5 cursor-pointer">
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-white/25 backdrop-blur-sm rounded-2xl flex items-center justify-center text-4xl md:text-5xl shrink-0 shadow-inner">
+                                📚
+                            </div>
+                            <div>
+                                <span class="text-xs font-extrabold uppercase tracking-wider bg-black/15 px-2.5 py-0.5 rounded-full">Langkah 2</span>
+                                <h3 class="text-2xl md:text-3xl font-bold mt-1">MATERI</h3>
+                                <p class="text-white/90 text-xs md:text-sm font-semibold mt-1">Pelajari Peran, Tugas, Tanggung Jawab & Interaksi.</p>
+                            </div>
+                        </button>
+
+                        <!-- Card 3: VIDEO -->
+                        <button onclick="playClick(); navigateTo('page-8')" class="menu-card text-left bg-gradient-to-br from-purple-500 to-indigo-600 p-6 rounded-3xl text-white shadow-xl border-4 border-white flex items-center gap-5 cursor-pointer">
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-white/25 backdrop-blur-sm rounded-2xl flex items-center justify-center text-4xl md:text-5xl shrink-0 shadow-inner">
+                                🎬
+                            </div>
+                            <div>
+                                <span class="text-xs font-extrabold uppercase tracking-wider bg-black/15 px-2.5 py-0.5 rounded-full">Langkah 3</span>
+                                <h3 class="text-2xl md:text-3xl font-bold mt-1">VIDEO</h3>
+                                <p class="text-white/90 text-xs md:text-sm font-semibold mt-1">Tonton video seru tentang kehidupan bermasyarakat.</p>
+                            </div>
+                        </button>
+
+                        <!-- Card 4: QUIZ -->
+                        <button onclick="playClick(); startQuiz()" class="menu-card text-left bg-gradient-to-br from-emerald-400 to-green-600 p-6 rounded-3xl text-white shadow-xl border-4 border-white flex items-center gap-5 cursor-pointer">
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-white/25 backdrop-blur-sm rounded-2xl flex items-center justify-center text-4xl md:text-5xl shrink-0 shadow-inner">
+                                🏆
+                            </div>
+                            <div>
+                                <span class="text-xs font-extrabold uppercase tracking-wider bg-black/15 px-2.5 py-0.5 rounded-full">Langkah 4</span>
+                                <h3 class="text-2xl md:text-3xl font-bold mt-1">QUIZ</h3>
+                                <p class="text-white/90 text-xs md:text-sm font-semibold mt-1">Uji pemahamanmu dengan 10 tantangan seru!</p>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Progress Status Bar on Dashboard -->
+                    <div class="mt-7 bg-slate-100 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 border-2 border-slate-200">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">🏅</span>
+                            <div>
+                                <p class="text-xs font-bold text-slate-500 uppercase">Status Quiz Kamu</p>
+                                <p id="dashQuizStatus" class="font-bold text-slate-800 text-sm md:text-base">Belum mengerjakan quiz</p>
+                            </div>
+                        </div>
+                        <button onclick="playClick(); resetStudentSession()" class="text-xs font-bold text-rose-600 hover:underline px-3 py-1.5 rounded-lg bg-rose-50 border border-rose-200">
+                            🔄 Ganti Nama Siswa
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================================
+                 PAGE 3: TUJUAN PEMBELAJARAN
+                 ===================================================================== -->
+            <section id="page-3" class="page-section hidden page-enter">
+                <div class="card-3d p-6 md:p-9">
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-100 text-4xl mb-3 shadow-sm border-2 border-amber-300">
+                            🎯
+                        </div>
+                        <h2 class="text-2xl md:text-4xl font-extrabold text-slate-800">TUJUAN PEMBELAJARAN</h2>
+                        <p class="text-amber-700 font-bold text-base md:text-lg mt-1">
+                            Setelah mempelajari materi ini, aku dapat:
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="bg-sky-50 border-2 border-sky-200 p-4 rounded-2xl flex items-start gap-3.5 hover:scale-[1.01] transition">
+                            <span class="w-8 h-8 rounded-xl bg-sky-500 text-white font-bold flex items-center justify-center shrink-0 mt-0.5">✓</span>
+                            <p class="font-bold text-slate-700 text-sm md:text-base">Menjelaskan peran seseorang di lingkungan tempat tinggal dan sekolah.</p>
+                        </div>
+                        <div class="bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl flex items-start gap-3.5 hover:scale-[1.01] transition">
+                            <span class="w-8 h-8 rounded-xl bg-emerald-500 text-white font-bold flex items-center justify-center shrink-0 mt-0.5">✓</span>
+                            <p class="font-bold text-slate-700 text-sm md:text-base">Menjelaskan tugas dan tanggung jawab sebagai anggota keluarga dan warga sekolah.</p>
+                        </div>
+                        <div class="bg-amber-50 border-2 border-amber-200 p-4 rounded-2xl flex items-start gap-3.5 hover:scale-[1.01] transition">
+                            <span class="w-8 h-8 rounded-xl bg-amber-500 text-white font-bold flex items-center justify-center shrink-0 mt-0.5">✓</span>
+                            <p class="font-bold text-slate-700 text-sm md:text-base">Mengenali berbagai bentuk interaksi sosial di sekitar tempat tinggal dan sekolah.</p>
+                        </div>
+                        <div class="bg-purple-50 border-2 border-purple-200 p-4 rounded-2xl flex items-start gap-3.5 hover:scale-[1.01] transition">
+                            <span class="w-8 h-8 rounded-xl bg-purple-500 text-white font-bold flex items-center justify-center shrink-0 mt-0.5">✓</span>
+                            <p class="font-bold text-slate-700 text-sm md:text-base">Memberikan contoh interaksi sosial yang baik dalam kehidupan sehari-hari.</p>
+                        </div>
+                        <div class="md:col-span-2 bg-rose-50 border-2 border-rose-200 p-4 rounded-2xl flex items-start gap-3.5 hover:scale-[1.01] transition">
+                            <span class="w-8 h-8 rounded-xl bg-rose-500 text-white font-bold flex items-center justify-center shrink-0 mt-0.5">✓</span>
+                            <p class="font-bold text-slate-700 text-sm md:text-base">Menunjukkan sikap bertanggung jawab, bekerja sama, saling menghargai, dan peduli terhadap lingkungan.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button onclick="playClick(); navigateTo('page-4')" class="btn-3d btn-green px-8 py-4 rounded-2xl font-cartoon text-xl text-white inline-flex items-center gap-3 cursor-pointer">
+                            <span>➡️</span> MULAI BELAJAR
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================================
+                 PAGE 4: MATERI 1 — PERAN DI LINGKUNGAN SEKITAR
+                 ===================================================================== -->
+            <section id="page-4" class="page-section hidden page-enter">
+                <div class="card-3d p-6 md:p-8">
+                    <!-- Materi Step Pills -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-5 pb-3 border-b-2 border-slate-100">
+                        <span class="bg-sky-100 text-sky-800 font-extrabold px-3.5 py-1 rounded-full text-xs md:text-sm">
+                            📚 MATERI 1 DARI 4
+                        </span>
+                        <div class="flex gap-1.5">
+                            <span class="w-8 h-2.5 rounded-full bg-sky-500"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-slate-200"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-slate-200"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-slate-200"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-sky-500 text-white flex items-center justify-center text-3xl md:text-4xl shadow-md shrink-0">
+                            👨‍👩‍👧
+                        </div>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">PERAN DI LINGKUNGAN SEKITAR</h2>
+                            <p class="text-sky-600 font-bold text-sm md:text-base">Setiap orang memiliki kedudukan yang berbeda-beda!</p>
+                        </div>
+                    </div>
+
+                    <!-- Concept Box -->
+                    <div class="bg-gradient-to-r from-sky-50 to-blue-50 border-l-8 border-sky-500 p-4 md:p-5 rounded-2xl mb-6">
+                        <p class="text-slate-700 font-bold text-base md:text-lg leading-relaxed">
+                            💡 <span class="text-sky-800">Apa itu Peran?</span><br>
+                            <strong>Peran</strong> adalah kedudukan atau posisi yang dimiliki seseorang di dalam keluarga, sekolah, maupun masyarakat. Karena peran yang berbeda, kegiatan yang dilakukan pun berbeda.
+                        </p>
+                    </div>
+
+                    <!-- Role Cards Grid -->
+                    <h3 class="font-cartoon text-lg md:text-xl text-slate-700 mb-3">Contoh Peran di Sekitar Kita:</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-7">
+                        <div class="bg-amber-50 border-2 border-amber-200 p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-4xl mb-2">👨</div>
+                            <h4 class="font-cartoon text-lg text-amber-900">Ayah</h4>
+                            <p class="text-sm font-semibold text-slate-600 mt-1">Berperan sebagai kepala keluarga & pencari nafkah.</p>
+                        </div>
+                        <div class="bg-rose-50 border-2 border-rose-200 p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-4xl mb-2">👩</div>
+                            <h4 class="font-cartoon text-lg text-rose-900">Ibu</h4>
+                            <p class="text-sm font-semibold text-slate-600 mt-1">Berperan sebagai anggota keluarga yang mengurus & menyayangi keluarga.</p>
+                        </div>
+                        <div class="bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-4xl mb-2">🧒</div>
+                            <h4 class="font-cartoon text-lg text-emerald-900">Anak</h4>
+                            <p class="text-sm font-semibold text-slate-600 mt-1">Berperan sebagai anggota keluarga yang berbakti kepada orang tua.</p>
+                        </div>
+                        <div class="bg-sky-50 border-2 border-sky-200 p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-4xl mb-2">🎒</div>
+                            <h4 class="font-cartoon text-lg text-sky-900">Siswa</h4>
+                            <p class="text-sm font-semibold text-slate-600 mt-1">Berperan sebagai peserta didik yang menuntut ilmu di sekolah.</p>
+                        </div>
+                        <div class="bg-purple-50 border-2 border-purple-200 p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-4xl mb-2">👩‍🏫</div>
+                            <h4 class="font-cartoon text-lg text-purple-900">Guru</h4>
+                            <p class="text-sm font-semibold text-slate-600 mt-1">Berperan sebagai pendidik yang mengajar dan membimbing siswa.</p>
+                        </div>
+                        <div class="bg-orange-50 border-2 border-orange-200 p-4 rounded-2xl text-center shadow-sm">
+                            <div class="text-4xl mb-2">🏘️</div>
+                            <h4 class="font-cartoon text-lg text-orange-900">Ketua RT</h4>
+                            <p class="text-sm font-semibold text-slate-600 mt-1">Berperan sebagai pengurus lingkungan yang melayani warga sekitar.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-2">
+                        <button onclick="playClick(); navigateTo('page-3')" class="btn-3d btn-white px-5 py-3 rounded-2xl font-bold text-slate-700">
+                            🔙 Tujuan
+                        </button>
+                        <button onclick="playClick(); navigateTo('page-5')" class="btn-3d btn-blue px-6 py-3 rounded-2xl font-cartoon text-lg text-white">
+                            Materi 2: Tugas & Tanggung Jawab ➡️
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================================
+                 PAGE 5: MATERI 2 — TUGAS DAN TANGGUNG JAWAB
+                 ===================================================================== -->
+            <section id="page-5" class="page-section hidden page-enter">
+                <div class="card-3d p-6 md:p-8">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-5 pb-3 border-b-2 border-slate-100">
+                        <span class="bg-emerald-100 text-emerald-800 font-extrabold px-3.5 py-1 rounded-full text-xs md:text-sm">
+                            📚 MATERI 2 DARI 4
+                        </span>
+                        <div class="flex gap-1.5">
+                            <span class="w-8 h-2.5 rounded-full bg-emerald-500"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-emerald-500"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-slate-200"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-slate-200"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-3xl md:text-4xl shadow-md shrink-0">
+                            📋
+                        </div>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">TUGAS DAN TANGGUNG JAWAB</h2>
+                            <p class="text-emerald-600 font-bold text-sm md:text-base">Setiap peran memiliki kewajiban yang harus dijalankan!</p>
+                        </div>
+                    </div>
+
+                    <!-- Difference Explanation -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-sky-50 border-2 border-sky-200 p-4 rounded-2xl">
+                            <h3 class="font-cartoon text-lg text-sky-800 mb-1">📌 Pengertian Tugas</h3>
+                            <p class="text-sm md:text-base font-semibold text-slate-700">
+                                <strong>Tugas</strong> adalah pekerjaan atau kegiatan yang wajib dikerjakan seseorang sesuai dengan perannya.
+                            </p>
+                        </div>
+                        <div class="bg-amber-50 border-2 border-amber-200 p-4 rounded-2xl">
+                            <h3 class="font-cartoon text-lg text-amber-800 mb-1">⭐ Pengertian Tanggung Jawab</h3>
+                            <p class="text-sm md:text-base font-semibold text-slate-700">
+                                <strong>Tanggung jawab</strong> adalah kesadaran untuk melaksanakan tugas dengan sungguh-sungguh dan berani menanggung akibatnya.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Home vs School Examples -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-7">
+                        <!-- At Home -->
+                        <div class="bg-orange-50/80 border-2 border-orange-200 rounded-3xl p-5">
+                            <h4 class="font-cartoon text-xl text-orange-800 flex items-center gap-2 mb-3">
+                                <span>🏡</span> Contoh di Rumah
+                            </h4>
+                            <ul class="space-y-2.5 font-bold text-slate-700 text-sm md:text-base">
+                                <li class="flex items-center gap-2.5 bg-white p-2.5 rounded-xl shadow-sm">
+                                    <span>🛏️</span> Merapikan tempat tidur sendiri
+                                </li>
+                                <li class="flex items-center gap-2.5 bg-white p-2.5 rounded-xl shadow-sm">
+                                    <span>🧹</span> Membantu orang tua menyapu rumah
+                                </li>
+                                <li class="flex items-center gap-2.5 bg-white p-2.5 rounded-xl shadow-sm">
+                                    <span>✨</span> Menjaga kebersihan dan kerapian rumah
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- At School -->
+                        <div class="bg-blue-50/80 border-2 border-blue-200 rounded-3xl p-5">
+                            <h4 class="font-cartoon text-xl text-blue-800 flex items-center gap-2 mb-3">
+                                <span>🏫</span> Contoh di Sekolah
+                            </h4>
+                            <ul class="space-y-2.5 font-bold text-slate-700 text-sm md:text-base">
+                                <li class="flex items-center gap-2.5 bg-white p-2.5 rounded-xl shadow-sm">
+                                    <span>✍️</span> Mengerjakan tugas dan PR tepat waktu
+                                </li>
+                                <li class="flex items-center gap-2.5 bg-white p-2.5 rounded-xl shadow-sm">
+                                    <span>📜</span> Menaati tata tertib aturan sekolah
+                                </li>
+                                <li class="flex items-center gap-2.5 bg-white p-2.5 rounded-xl shadow-sm">
+                                    <span>🧽</span> Melaksanakan piket kebersihan kelas
+                                </li>
+                                <li class="flex items-center gap-2.5 bg-white p-2.5 rounded-xl shadow-sm">
+                                    <span>🙏</span> Menghormati guru dan membantu teman
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-2">
+                        <button onclick="playClick(); navigateTo('page-4')" class="btn-3d btn-white px-5 py-3 rounded-2xl font-bold text-slate-700">
+                            🔙 Materi 1
+                        </button>
+                        <button onclick="playClick(); navigateTo('page-6')" class="btn-3d btn-green px-6 py-3 rounded-2xl font-cartoon text-lg text-white">
+                            Materi 3: Interaksi Sosial ➡️
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================================
+                 PAGE 6: MATERI 3 — INTERAKSI SOSIAL
+                 ===================================================================== -->
+            <section id="page-6" class="page-section hidden page-enter">
+                <div class="card-3d p-6 md:p-8">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-5 pb-3 border-b-2 border-slate-100">
+                        <span class="bg-amber-100 text-amber-800 font-extrabold px-3.5 py-1 rounded-full text-xs md:text-sm">
+                            📚 MATERI 3 DARI 4
+                        </span>
+                        <div class="flex gap-1.5">
+                            <span class="w-8 h-2.5 rounded-full bg-amber-500"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-amber-500"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-amber-500"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-slate-200"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-3xl md:text-4xl shadow-md shrink-0">
+                            🤝
+                        </div>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">INTERAKSI SOSIAL</h2>
+                            <p class="text-amber-600 font-bold text-sm md:text-base">Manusia tidak bisa hidup sendiri tanpa bantuan orang lain!</p>
+                        </div>
+                    </div>
+
+                    <!-- Concept Box -->
+                    <div class="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-8 border-amber-500 p-4 md:p-5 rounded-2xl mb-6">
+                        <p class="text-slate-700 font-bold text-base md:text-lg leading-relaxed">
+                            💡 <span class="text-amber-800">Apa itu Interaksi Sosial?</span><br>
+                            <strong>Interaksi sosial</strong> adalah hubungan timbal balik (saling berkomunikasi dan berhubungan) antara dua orang atau lebih dalam kehidupan sehari-hari.
+                        </p>
+                    </div>
+
+                    <h3 class="font-cartoon text-lg md:text-xl text-slate-700 mb-3">Contoh Interaksi Sosial di Sekitar Kita:</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-7">
+                        <div class="bg-white border-2 border-sky-200 p-4 rounded-2xl flex items-center gap-3 shadow-sm">
+                            <span class="text-3xl">💬</span>
+                            <p class="font-bold text-slate-700 text-sm md:text-base">Berbicara dan menyapa teman</p>
+                        </div>
+                        <div class="bg-white border-2 border-emerald-200 p-4 rounded-2xl flex items-center gap-3 shadow-sm">
+                            <span class="text-3xl">👥</span>
+                            <p class="font-bold text-slate-700 text-sm md:text-base">Bekerja kelompok di kelas</p>
+                        </div>
+                        <div class="bg-white border-2 border-amber-200 p-4 rounded-2xl flex items-center gap-3 shadow-sm">
+                            <span class="text-3xl">⚽</span>
+                            <p class="font-bold text-slate-700 text-sm md:text-base">Bermain bersama teman saat istirahat</p>
+                        </div>
+                        <div class="bg-white border-2 border-purple-200 p-4 rounded-2xl flex items-center gap-3 shadow-sm">
+                            <span class="text-3xl">🎁</span>
+                            <p class="font-bold text-slate-700 text-sm md:text-base">Membantu tetangga yang kesulitan</p>
+                        </div>
+                        <div class="bg-white border-2 border-rose-200 p-4 rounded-2xl flex items-center gap-3 shadow-sm">
+                            <span class="text-3xl">🙋‍♂️</span>
+                            <p class="font-bold text-slate-700 text-sm md:text-base">Berdiskusi dan bertanya pada guru</p>
+                        </div>
+                        <div class="bg-white border-2 border-teal-200 p-4 rounded-2xl flex items-center gap-3 shadow-sm">
+                            <span class="text-3xl">🌿</span>
+                            <p class="font-bold text-slate-700 text-sm md:text-base">Gotong royong membersihkan lingkungan</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-2">
+                        <button onclick="playClick(); navigateTo('page-5')" class="btn-3d btn-white px-5 py-3 rounded-2xl font-bold text-slate-700">
+                            🔙 Materi 2
+                        </button>
+                        <button onclick="playClick(); navigateTo('page-7')" class="btn-3d btn-orange px-6 py-3 rounded-2xl font-cartoon text-lg text-white">
+                            Materi 4: Interaksi yang Baik ➡️
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================================
+                 PAGE 7: MATERI 4 — INTERAKSI SOSIAL YANG BAIK & MINI AKTIVITAS
+                 ===================================================================== -->
+            <section id="page-7" class="page-section hidden page-enter">
+                <div class="card-3d p-6 md:p-8">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-5 pb-3 border-b-2 border-slate-100">
+                        <span class="bg-rose-100 text-rose-800 font-extrabold px-3.5 py-1 rounded-full text-xs md:text-sm">
+                            📚 MATERI 4 DARI 4
+                        </span>
+                        <div class="flex gap-1.5">
+                            <span class="w-8 h-2.5 rounded-full bg-rose-500"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-rose-500"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-rose-500"></span>
+                            <span class="w-8 h-2.5 rounded-full bg-rose-500"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-3xl md:text-4xl shadow-md shrink-0">
+                            ❤️
+                        </div>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">INTERAKSI SOSIAL YANG BAIK</h2>
+                            <p class="text-rose-600 font-bold text-sm md:text-base">Sikap terpuji menciptakan lingkungan yang rukun dan damai!</p>
+                        </div>
+                    </div>
+
+                    <!-- Good Social Interaction Badges -->
+                    <div class="flex flex-wrap gap-2.5 mb-6">
+                        <span class="bg-emerald-100 text-emerald-900 border border-emerald-300 px-3.5 py-2 rounded-2xl font-bold text-sm flex items-center gap-1.5">🌟 Saling menghargai</span>
+                        <span class="bg-sky-100 text-sky-900 border border-sky-300 px-3.5 py-2 rounded-2xl font-bold text-sm flex items-center gap-1.5">🤝 Bekerja sama</span>
+                        <span class="bg-amber-100 text-amber-900 border border-amber-300 px-3.5 py-2 rounded-2xl font-bold text-sm flex items-center gap-1.5">🫶 Saling membantu</span>
+                        <span class="bg-purple-100 text-purple-900 border border-purple-300 px-3.5 py-2 rounded-2xl font-bold text-sm flex items-center gap-1.5">🍎 Berbagi</span>
+                        <span class="bg-teal-100 text-teal-900 border border-teal-300 px-3.5 py-2 rounded-2xl font-bold text-sm flex items-center gap-1.5">👂 Mendengarkan orang berbicara</span>
+                        <span class="bg-rose-100 text-rose-900 border border-rose-300 px-3.5 py-2 rounded-2xl font-bold text-sm flex items-center gap-1.5">🚫 Tidak mengejek</span>
+                        <span class="bg-indigo-100 text-indigo-900 border border-indigo-300 px-3.5 py-2 rounded-2xl font-bold text-sm flex items-center gap-1.5">🗣️ Musyawarah mufakat</span>
+                    </div>
+
+                    <!-- MINI AKTIVITAS INTERAKTIF -->
+                    <div class="bg-gradient-to-br from-yellow-50 to-amber-100 border-4 border-amber-300 rounded-3xl p-5 md:p-6 mb-6 shadow-inner">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="bg-amber-500 text-white text-xs font-extrabold px-3 py-1 rounded-full uppercase">🎮 Mini Aktivitas</span>
+                        </div>
+                        <h3 class="font-cartoon text-lg md:text-xl text-slate-800 mb-4">
+                            "Menurutmu, tindakan mana yang menunjukkan tanggung jawab?"
+                        </h3>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5" id="miniActivityCards">
+                            <button onclick="checkMiniActivity(0, false)" class="mini-card bg-white hover:bg-sky-50 border-3 border-slate-200 p-4 rounded-2xl text-center transition cursor-pointer shadow-sm">
+                                <div class="text-4xl mb-2">🗑️💨</div>
+                                <p class="font-bold text-slate-700 text-sm">Membuang bungkus jajan di laci meja kelas</p>
+                            </button>
+
+                            <button onclick="checkMiniActivity(1, true)" class="mini-card bg-white hover:bg-sky-50 border-3 border-slate-200 p-4 rounded-2xl text-center transition cursor-pointer shadow-sm">
+                                <div class="text-4xl mb-2">🧹✨</div>
+                                <p class="font-bold text-slate-700 text-sm">Menyapu kelas sesuai jadwal piket bersama teman</p>
+                            </button>
+
+                            <button onclick="checkMiniActivity(2, false)" class="mini-card bg-white hover:bg-sky-50 border-3 border-slate-200 p-4 rounded-2xl text-center transition cursor-pointer shadow-sm">
+                                <div class="text-4xl mb-2">🎮😴</div>
+                                <p class="font-bold text-slate-700 text-sm">Bermain game terus sampai lupa mengerjakan PR</p>
+                            </button>
+                        </div>
+
+                        <div id="miniActivityFeedback" class="hidden mt-4 p-3.5 rounded-2xl font-bold text-sm md:text-base text-center"></div>
+                    </div>
+
+                    <div class="flex flex-wrap justify-between items-center gap-3 pt-2">
+                        <button onclick="playClick(); navigateTo('page-6')" class="btn-3d btn-white px-5 py-3 rounded-2xl font-bold text-slate-700">
+                            🔙 Materi 3
+                        </button>
+                        <button onclick="playClick(); navigateTo('page-8')" class="btn-3d btn-purple px-6 py-3 rounded-2xl font-cartoon text-lg text-white">
+                            🎬 Lanjut ke Video Pembelajaran ➡️
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================================
+                 PAGE 8: VIDEO PEMBELAJARAN
+                 ===================================================================== -->
+            <section id="page-8" class="page-section hidden page-enter">
+                <div class="card-3d p-6 md:p-8 text-center">
+                    <div class="inline-flex items-center gap-2 bg-purple-100 text-purple-800 px-4 py-1 rounded-full font-extrabold text-xs md:text-sm mb-3">
+                        🎬 CINEMA IPAS KELAS 4
+                    </div>
+                    <h2 class="text-2xl md:text-4xl font-extrabold text-slate-800 mb-2">VIDEO PEMBELAJARAN</h2>
+                    <p class="text-slate-600 font-semibold text-sm md:text-base mb-5">
+                        Simak video tentang peran, tugas, tanggung jawab, dan interaksi sosial!
+                    </p>
+
+                    <!-- Teacher/Student YouTube Link Input Bar (Optional Helper for Classroom) -->
+                    <div class="max-w-2xl mx-auto mb-5 flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="customVideoInput" placeholder="Tempel link YouTube di sini (opsional)..." 
+                            class="flex-grow px-4 py-2.5 rounded-xl border-2 border-purple-200 focus:border-purple-500 focus:outline-none text-sm font-bold text-slate-700 bg-purple-50/50">
+                        <button onclick="playClick(); loadCustomVideo()" class="btn-3d btn-purple px-5 py-2.5 rounded-xl font-cartoon text-sm md:text-base text-white shrink-0 cursor-pointer">
+                            ▶️ PUTAR VIDEO
+                        </button>
+                    </div>
+
+                    <!-- Video Display Frame -->
+                    <div class="max-w-3xl mx-auto bg-slate-900 rounded-3xl overflow-hidden border-4 border-purple-300 shadow-xl aspect-video flex items-center justify-center relative mb-6">
+                        <div id="videoPlaceholder" class="p-6 text-center text-white">
+                            <div class="text-6xl mb-3 animate-bounce">📺</div>
+                            <p class="font-cartoon text-xl md:text-2xl text-amber-300 mb-2">Video pembelajaran akan ditampilkan di sini.</p>
+                            <p class="text-xs md:text-sm text-slate-300 max-w-md mx-auto">
+                                Guru dapat mengisi variabel <code class="bg-slate-800 px-2 py-0.5 rounded text-sky-300">VIDEO_URL</code> di dalam kode atau menempelkan link YouTube pada kolom di atas lalu tekan <strong>PUTAR VIDEO</strong>.
+                            </p>
+                        </div>
+                        <iframe id="youtubeIframe" class="hidden w-full h-full" src="" title="Video Pembelajaran IPAS" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button onclick="playClick(); goHome()" class="btn-3d btn-white px-6 py-3.5 rounded-2xl font-bold text-slate-700">
+                            🔙 KEMBALI KE MENU
+                        </button>
+                        <button onclick="playClick(); startQuiz()" class="btn-3d btn-green px-7 py-3.5 rounded-2xl font-cartoon text-lg text-white">
+                            🏆 MULAI QUIZ SEKARANG ➡️
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================================
+                 PAGES 9–18: QUIZ INTERAKTIF (10 SOAL)
+                 ===================================================================== -->
+            <section id="page-quiz" class="page-section hidden page-enter">
+                <div class="card-3d p-5 md:p-8">
+                    <!-- Top Quiz Header & Progress Bar -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span id="quizCounterText" class="font-cartoon text-lg md:text-xl text-sky-700">
+                                SOAL 1/10
+                            </span>
+                            <span class="bg-amber-100 text-amber-800 font-extrabold px-3.5 py-1 rounded-full text-xs md:text-sm border border-amber-300">
+                                ⭐ Skor Sementara: <span id="liveQuizScore">0</span>
+                            </span>
+                        </div>
+                        <!-- Visual Progress Bar -->
+                        <div class="w-full h-5 bg-slate-200 rounded-full overflow-hidden p-1 shadow-inner">
+                            <div id="quizProgressBar" class="h-full bg-gradient-to-r from-sky-400 via-blue-500 to-emerald-400 rounded-full transition-all duration-500" style="width: 10%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question Card -->
+                    <div class="bg-gradient-to-br from-sky-50 to-indigo-50 border-3 border-sky-200 rounded-3xl p-5 md:p-7 mb-6 shadow-sm">
+                        <span id="quizTopicBadge" class="inline-block bg-sky-500 text-white text-xs font-extrabold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">
+                            Topik: Tanggung Jawab
+                        </span>
+                        <h2 id="quizQuestionText" class="text-lg sm:text-xl md:text-2xl font-extrabold text-slate-800 leading-snug">
+                            Memuat pertanyaan...
+                        </h2>
+                    </div>
+
+                    <!-- 4 Multiple Choice Options -->
+                    <div id="quizOptionsContainer" class="grid grid-cols-1 gap-3.5 mb-6">
+                        <!-- Options injected dynamically by JS -->
+                    </div>
+
+                    <!-- Instant Feedback & Explanation Box -->
+                    <div id="quizFeedbackBox" class="hidden rounded-2xl p-4 md:p-5 mb-6 border-3 transition-all">
+                        <div class="flex items-start gap-3">
+                            <span id="feedbackEmoji" class="text-3xl shrink-0">🎉</span>
+                            <div>
+                                <h4 id="feedbackTitle" class="font-cartoon text-lg md:text-xl">Hebat! Jawabanmu Benar!</h4>
+                                <p id="feedbackExplanation" class="text-sm md:text-base font-semibold mt-1"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next Question Button -->
+                    <div class="flex justify-end">
+                        <button id="btnNextQuestion" onclick="playClick(); nextQuestion()" disabled class="btn-3d btn-blue px-7 py-3.5 rounded-2xl font-cartoon text-lg text-white flex items-center gap-2 cursor-pointer">
+                            <span id="btnNextQuestionText">Soal Berikutnya</span> <span>➡️</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =====================================================================
+                 PAGE 19 & 20: HALAMAN HASIL QUIZ & PENGIRIMAN GOOGLE SPREADSHEET
+                 ===================================================================== -->
+            <section id="page-result" class="page-section hidden page-enter">
+                <div class="card-3d p-6 md:p-9 text-center">
+                    <div class="inline-block bg-yellow-100 text-yellow-800 border-2 border-yellow-300 px-4 py-1 rounded-full font-extrabold text-xs md:text-sm mb-3">
+                        🎉 SELAMAT TELAH MENYELESAIKAN TANTANGAN!
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-6">
+                        🏆 HASIL PETUALANGAN
+                    </h2>
+
+                    <!-- Score & Predicate Showcase -->
+                    <div class="max-w-2xl mx-auto bg-gradient-to-br from-sky-50 via-white to-amber-50 border-4 border-sky-200 rounded-3xl p-6 mb-6 shadow-md">
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-5 mb-5 border-b-2 border-dashed border-slate-200">
+                            <div class="text-center sm:text-left">
+                                <p class="text-xs font-extrabold text-slate-400 uppercase">Nama Petualang</p>
+                                <p id="resStudentName" class="font-cartoon text-2xl text-slate-800">-</p>
+                                <p id="resStudentClass" class="text-sm font-bold text-sky-600">Kelas 4</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-amber-400 to-orange-500 text-white px-6 py-3 rounded-2xl shadow-lg border-2 border-white">
+                                <p class="text-xs font-extrabold uppercase tracking-wider">Nilai Akhir</p>
+                                <p id="resScore" class="font-cartoon text-4xl md:text-5xl">100</p>
+                            </div>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-3 gap-3 mb-5">
+                            <div class="bg-emerald-50 border-2 border-emerald-200 p-3 rounded-2xl">
+                                <p class="text-xs font-bold text-emerald-700">✅ Benar</p>
+                                <p id="resCorrect" class="font-cartoon text-2xl text-emerald-600">0</p>
+                            </div>
+                            <div class="bg-rose-50 border-2 border-rose-200 p-3 rounded-2xl">
+                                <p class="text-xs font-bold text-rose-700">❌ Salah</p>
+                                <p id="resWrong" class="font-cartoon text-2xl text-rose-600">0</p>
+                            </div>
+                            <div class="bg-purple-50 border-2 border-purple-200 p-3 rounded-2xl">
+                                <p class="text-xs font-bold text-purple-700">⏱️ Waktu</p>
+                                <p id="resDuration" class="font-cartoon text-xl md:text-2xl text-purple-600">0 dtk</p>
+                            </div>
+                        </div>
+
+                        <!-- Predicate Badge -->
+                        <div class="bg-white border-2 border-amber-300 rounded-2xl p-4 mb-4 shadow-sm">
+                            <p class="text-xs font-extrabold text-slate-400 uppercase mb-1">Predikat Pencapaian</p>
+                            <p id="resPredicate" class="font-cartoon text-2xl md:text-3xl text-amber-600">🌟 SANGAT BAIK</p>
+                        </div>
+
+                        <!-- Automatic Motivation Message -->
+                        <p id="resMotivation" class="font-bold text-slate-700 text-sm md:text-base italic">
+                            "Hebat! Kamu sudah memahami peran, tugas, tanggung jawab, dan interaksi sosial."
+                        </p>
+                    </div>
+
+                    <!-- PAGE 20 INTEGRATED: STATUS PENGIRIMAN KE GOOGLE SPREADSHEET -->
+                    <div id="submissionStatusBox" class="hidden max-w-xl mx-auto mb-6 p-5 rounded-3xl border-3 text-center transition-all">
+                        <h3 id="submissionStatusTitle" class="font-cartoon text-xl md:text-2xl mb-1"></h3>
+                        <p id="submissionStatusDesc" class="font-bold text-sm md:text-base"></p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap items-center justify-center gap-3 md:gap-4">
+                        <button onclick="playClick(); retakeQuiz()" class="btn-3d btn-yellow px-6 py-3.5 rounded-2xl font-cartoon text-base md:text-lg flex items-center gap-2 cursor-pointer">
+                            <span>🔄</span> ULANGI QUIZ
+                        </button>
+                        <button onclick="playClick(); goHome()" class="btn-3d btn-blue px-6 py-3.5 rounded-2xl font-cartoon text-base md:text-lg text-white flex items-center gap-2 cursor-pointer">
+                            <span>🏠</span> KEMBALI KE MENU
+                        </button>
+                        <button id="btnSubmitResult" onclick="playClick(); submitResultToGoogleSheets()" class="btn-3d btn-green px-7 py-3.5 rounded-2xl font-cartoon text-base md:text-lg text-white flex items-center gap-2 cursor-pointer pulse-highlight">
+                            <span>📊</span> KIRIM HASIL
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-3 px-4 text-xs font-bold text-slate-600/80">
+        Media Pembelajaran Interaktif IPAS Kelas 4 SD (Fase B) • Petualangan Interaksi Sosial
+    </footer>
+
+    <!-- =========================================================================
+         JAVASCRIPT APPLICATION LOGIC (AUDIO, STATE, QUIZ, GOOGLE SHEETS API)
+         ========================================================================= -->
+    <script>
+        /**
+         * =====================================================================
+         * 1. KONFIGURASI UTAMA (EDIT URL DI SINI)
+         * =====================================================================
+         */
+        const VIDEO_URL = "https://www.youtube.com/watch?v=3fbtDI9HoZU"; 
+
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLLLRLclcUjQAXRPTsIb1mGAwtl4LljjVtkcDdC6gEvQvpwWX4GT20xKvIYssb88m0aQ/exec";
+
+        /**
+         * =====================================================================
+         * 2. BANK SOAL QUIZ IPAS KELAS 4 (10 SOAL LENGKAP)
+         * =====================================================================
+         */
+        const QUIZ_QUESTIONS = [
+            {
+                topic: "Tanggung Jawab di Sekolah",
+                question: "Rani selalu membantu membersihkan kelas bersama teman-temannya sesuai jadwal piket. Sikap Rani menunjukkan...",
+                options: [
+                    "Tidak peduli",
+                    "Tanggung jawab",
+                    "Bermalas-malasan",
+                    "Mementingkan diri sendiri"
+                ],
+                correctIndex: 1,
+                explanation: "Melaksanakan tugas piket kebersihan kelas dengan kesadaran sendiri merupakan wujud sikap tanggung jawab sebagai warga sekolah."
+            },
+            {
+                topic: "Peran di Lingkungan Keluarga",
+                question: "Di dalam keluarga, seseorang yang berperan mencari nafkah utama dan menjadi kepala keluarga adalah...",
+                options: [
+                    "Adik",
+                    "Ketua RT",
+                    "Ayah",
+                    "Guru"
+                ],
+                correctIndex: 2,
+                explanation: "Ayah berperan sebagai kepala keluarga yang melindungi dan mencari nafkah untuk memenuhi kebutuhan keluarga."
+            },
+            {
+                topic: "Peran di Lingkungan Masyarakat",
+                question: "Pak Budi bertugas mengurus administrasi warga dan menjaga kerukunan di lingkungan rukun tetangga. Peran Pak Budi adalah sebagai...",
+                options: [
+                    "Kepala Sekolah",
+                    "Ketua RT",
+                    "Peserta Didik",
+                    "Dokter"
+                ],
+                correctIndex: 1,
+                explanation: "Ketua RT adalah pengurus lingkungan masyarakat yang bertugas melayani warga dan menjaga ketertiban lingkungan sekitar."
+            },
+            {
+                topic: "Tugas Siswa di Sekolah",
+                question: "Sebagai seorang siswa di sekolah, tugas utama yang harus kamu lakukan adalah...",
+                options: [
+                    "Belajar dengan tekun dan menaati aturan sekolah",
+                    "Bermain sepanjang waktu pelajaran",
+                    "Mengatur jadwal mengajar guru",
+                    "Membiarkan kelas kotor"
+                ],
+                correctIndex: 0,
+                explanation: "Peran siswa adalah peserta didik, sehingga tugas utamanya adalah belajar dengan rajin, mengerjakan tugas, dan menaati tata tertib."
+            },
+            {
+                topic: "Tanggung Jawab di Rumah",
+                question: "Contoh perilaku yang menunjukkan tanggung jawab seorang anak di lingkungan rumah adalah...",
+                options: [
+                    "Menunggu ibu merapikan mainan yang berserakan",
+                    "Merapikan tempat tidur setelah bangun pagi",
+                    "Menonton televisi sampai larut malam",
+                    "Membantah nasihat orang tua"
+                ],
+                correctIndex: 1,
+                explanation: "Merapikan tempat tidur sendiri adalah contoh sikap mandiri dan bertanggung jawab di rumah."
+            },
+            {
+                topic: "Pengertian Interaksi Sosial",
+                question: "Hubungan timbal balik berupa komunikasi dan kerja sama antara dua orang atau lebih disebut...",
+                options: [
+                    "Interaksi sosial",
+                    "Tanggung jawab",
+                    "Peran individu",
+                    "Tata tertib"
+                ],
+                correctIndex: 0,
+                explanation: "Interaksi sosial adalah hubungan timbal balik antarmanusia, seperti berbicara, berdiskusi, atau bekerja sama."
+            },
+            {
+                topic: "Kerja Sama & Gotong Royong",
+                question: "Warga Desa Sukamaju bersama-sama membersihkan selokan dan jalan desa pada hari Minggu. Kegiatan tersebut merupakan contoh...",
+                options: [
+                    "Persaingan antarwarga",
+                    "Gotong royong di lingkungan sekitar",
+                    "Tugas sekolah",
+                    "Pertengkaran warga"
+                ],
+                correctIndex: 1,
+                explanation: "Membersihkan lingkungan bersama-sama adalah bentuk interaksi sosial berupa gotong royong yang mempererat persatuan."
+            },
+            {
+                topic: "Sikap Menghargai",
+                question: "Saat teman sedang menyampaikan pendapat dalam diskusi kelompok, sikap interaksi sosial yang baik adalah...",
+                options: [
+                    "Memotong pembicaraannya",
+                    "Mengejek pendapatnya jika berbeda",
+                    "Mendengarkan dengan tenang sampai selesai",
+                    "Berbicara sendiri dengan teman lain"
+                ],
+                correctIndex: 2,
+                explanation: "Mendengarkan orang lain berbicara tanpa menyela adalah wujud sikap saling menghargai dalam berinteraksi."
+            },
+            {
+                topic: "Interaksi Sosial di Sekolah",
+                question: "Manakah di bawah ini yang merupakan contoh interaksi sosial yang baik di lingkungan sekolah?",
+                options: [
+                    "Menyontek pekerjaan teman saat ulangan",
+                    "Berbagi bekal makanan kepada teman yang lupa membawa",
+                    "Mengucilkan teman baru di kelas",
+                    "Berebut alat tulis dengan teman"
+                ],
+                correctIndex: 1,
+                explanation: "Berbagi dengan teman menunjukkan kepedulian dan interaksi sosial yang harmonis di sekolah."
+            },
+            {
+                topic: "Menyelesaikan Masalah Bersama",
+                question: "Jika terjadi perbedaan pendapat saat menentukan jadwal piket kelas, cara terbaik menyelesaikannya adalah dengan...",
+                options: [
+                    "Bertengkar sampai ada yang menang",
+                    "Memaksakan kehendak sendiri",
+                    "Musyawarah untuk mencapai mufakat",
+                    "Tidak mau ikut piket kelas"
+                ],
+                correctIndex: 2,
+                explanation: "Musyawarah adalah cara berinteraksi yang baik untuk mengambil keputusan bersama secara adil dan damai."
+            }
+        ];
+
+        /**
+         * =====================================================================
+         * 3. STATE APLIKASI & LOCAL STORAGE
+         * =====================================================================
+         */
+        const STORAGE_KEY = "ipas_kelas4_petualangan_state_v1";
+
+        let appState = {
+            studentName: "",
+            studentClass: "4A",
+            currentPage: "page-1",
+            historyStack: [],
+            soundEnabled: true,
+            quiz: {
+                currentIndex: 0,
+                score: 0,
+                correctCount: 0,
+                wrongCount: 0,
+                answers: [], // menyimpan index jawaban yang dipilih
+                isAnswered: false,
+                completed: false,
+                startTime: null,
+                durationSeconds: 0,
+                submittedToSheets: false // mencegah pengiriman ganda dalam 1 sesi quiz
+            }
+        };
+
+        // Load state from localStorage if available
+        function loadState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    appState = { ...appState, ...parsed };
+                }
+            } catch (e) {
+                console.warn("Gagal memuat state dari localStorage:", e);
+            }
+        }
+
+        // Save state to localStorage
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+            } catch (e) {
+                console.warn("Gagal menyimpan state ke localStorage:", e);
+            }
+        }
+
+        /**
+         * =====================================================================
+         * 4. WEB AUDIO API SOUND EFFECTS (TANPA FILE AUDIO EKSTERNAL)
+         * =====================================================================
+         */
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        // Suara klik tombol ceria
+        function playClick() {
+            if (!appState.soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(520, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(780, ctx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.08);
+            } catch (e) {}
+        }
+
+        // Suara jawaban benar (Arpeggio naik ceria)
+        function playCorrect() {
+            if (!appState.soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    const start = ctx.currentTime + idx * 0.08;
+                    osc.frequency.setValueAtTime(freq, start);
+                    gain.gain.setValueAtTime(0.2, start);
+                    gain.gain.exponentialRampToValueAtTime(0.01, start + 0.25);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(start);
+                    osc.stop(start + 0.25);
+                });
+            } catch (e) {}
+        }
+
+        // Suara jawaban salah (Nada rendah lembut)
+        function playWrong() {
+            if (!appState.soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(240, ctx.currentTime);
+                osc.frequency.linearRampToValueAtTime(160, ctx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.32);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.32);
+            } catch (e) {}
+        }
+
+        // Suara kemenangan / selesai quiz
+        function playVictory() {
+            if (!appState.soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const melody = [
+                    { f: 523.25, t: 0, d: 0.15 },
+                    { f: 659.25, t: 0.15, d: 0.15 },
+                    { f: 783.99, t: 0.3, d: 0.15 },
+                    { f: 1046.50, t: 0.45, d: 0.4 },
+                    { f: 783.99, t: 0.85, d: 0.15 },
+                    { f: 1046.50, t: 1.0, d: 0.5 }
+                ];
+                melody.forEach(note => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    const start = ctx.currentTime + note.t;
+                    osc.frequency.setValueAtTime(note.f, start);
+                    gain.gain.setValueAtTime(0.22, start);
+                    gain.gain.exponentialRampToValueAtTime(0.01, start + note.d);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(start);
+                    osc.stop(start + note.d);
+                });
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            appState.soundEnabled = !appState.soundEnabled;
+            document.getElementById('btnSoundToggle').textContent = appState.soundEnabled ? '🔊' : '🔇';
+            saveState();
+            showToast(appState.soundEnabled ? "Efek suara diaktifkan!" : "Efek suara dimatikan.", "info");
+        }
+
+        /**
+         * =====================================================================
+         * 5. NOTIFIKASI CUSTOM & FULLSCREEN
+         * =====================================================================
+         */
+        let toastTimeout = null;
+        function showToast(message, type = "warning") {
+            const toast = document.getElementById('customToast');
+            const content = document.getElementById('toastContent');
+            const icon = document.getElementById('toastIcon');
+            const msgEl = document.getElementById('toastMessage');
+
+            msgEl.textContent = message;
+            content.className = "flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border-4 border-white font-bold text-white text-sm md:text-base ";
+
+            if (type === "error" || type === "warning") {
+                content.classList.add("bg-orange-500");
+                icon.textContent = "⚠️";
+            } else if (type === "success") {
+                content.classList.add("bg-emerald-500");
+                icon.textContent = "✅";
+            } else {
+                content.classList.add("bg-sky-600");
+                icon.textContent = "💡";
+            }
+
+            toast.classList.remove('hidden');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3200);
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {
+                    showToast("Browser tidak mengizinkan mode layar penuh otomatis.", "info");
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        /**
+         * =====================================================================
+         * 6. NAVIGASI HALAMAN
+         * =====================================================================
+         */
+        const PAGE_ORDER = ['page-1', 'page-2', 'page-3', 'page-4', 'page-5', 'page-6', 'page-7', 'page-8', 'page-quiz', 'page-result'];
+
+        function navigateTo(pageId, pushHistory = true) {
+            // Validasi nama siswa jika mencoba masuk ke halaman selain page-1
+            if (pageId !== 'page-1' && !appState.studentName.trim()) {
+                showToast("Isi nama lengkapmu terlebih dahulu ya!", "warning");
+                pageId = 'page-1';
+            }
+
+            if (pushHistory && appState.currentPage && appState.currentPage !== pageId) {
+                appState.historyStack.push(appState.currentPage);
+            }
+
+            // Sembunyikan semua section
+            document.querySelectorAll('.page-section').forEach(sec => {
+                sec.classList.add('hidden');
+            });
+
+            // Tampilkan target section
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.classList.remove('hidden');
+                // Re-trigger entrance animation
+                target.classList.remove('page-enter');
+                void target.offsetWidth;
+                target.classList.add('page-enter');
+            }
+
+            // Atur visibilitas Top Navbar
+            const navbar = document.getElementById('topNavbar');
+            if (pageId === 'page-1') {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+                updateHeaderStudentInfo();
+            }
+
+            appState.currentPage = pageId;
+            saveState();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Render konten dinamis sesuai halaman
+            if (pageId === 'page-2') updateDashboardStatus();
+            if (pageId === 'page-8') initVideoPage();
+            if (pageId === 'page-quiz') renderQuizQuestion();
+            if (pageId === 'page-result') renderResultPage();
+        }
+
+        function goHome() {
+            navigateTo('page-2');
+        }
+
+        function goBack() {
+            if (appState.historyStack.length > 0) {
+                const prev = appState.historyStack.pop();
+                navigateTo(prev, false);
+            } else {
+                const idx = PAGE_ORDER.indexOf(appState.currentPage);
+                if (idx > 1) {
+                    navigateTo(PAGE_ORDER[idx - 1], false);
+                } else {
+                    navigateTo('page-2', false);
+                }
+            }
+        }
+
+        function goNext() {
+            const idx = PAGE_ORDER.indexOf(appState.currentPage);
+            if (appState.currentPage === 'page-8') {
+                startQuiz();
+            } else if (appState.currentPage === 'page-quiz') {
+                showToast("Selesaikan soal quiz terlebih dahulu!", "info");
+            } else if (idx >= 1 && idx < PAGE_ORDER.length - 2) {
+                navigateTo(PAGE_ORDER[idx + 1]);
+            } else {
+                navigateTo('page-2');
+            }
+        }
+
+        /**
+         * =====================================================================
+         * 7. HALAMAN PEMBUKA & DASHBOARD
+         * =====================================================================
+         */
+        function startAdventure() {
+            playClick();
+            const nameInput = document.getElementById('inputStudentName').value.trim();
+            const classInput = document.getElementById('inputStudentClass').value;
+
+            if (!nameInput || nameInput.length < 2) {
+                showToast("Nama lengkap siswa wajib diisi minimal 2 huruf!", "warning");
+                document.getElementById('inputStudentName').focus();
+                return;
+            }
+
+            // Sanitasi nama sederhana
+            appState.studentName = nameInput.replace(/[<>]/g, '');
+            appState.studentClass = classInput;
+            saveState();
+
+            showToast(`Selamat datang, ${appState.studentName}!`, "success");
+            navigateTo('page-2');
+        }
+
+        function updateHeaderStudentInfo() {
+            document.getElementById('navStudentName').textContent = `${appState.studentName} (${appState.studentClass})`;
+            document.getElementById('dashStudentName').textContent = appState.studentName;
+        }
+
+        function updateDashboardStatus() {
+            const statusEl = document.getElementById('dashQuizStatus');
+            if (appState.quiz.completed) {
+                statusEl.innerHTML = `<span class="text-emerald-600">Selesai! Nilai: ${appState.quiz.score}/100</span> (${appState.quiz.correctCount} Benar)`;
+            } else if (appState.quiz.currentIndex > 0) {
+                statusEl.innerHTML = `<span class="text-amber-600">Sedang berlangsung (Soal ${appState.quiz.currentIndex + 1}/10)</span>`;
+            } else {
+                statusEl.textContent = "Belum mengerjakan quiz";
+            }
+        }
+
+        function resetStudentSession() {
+            localStorage.removeItem(STORAGE_KEY);
+            appState.studentName = "";
+            appState.quiz = {
+                currentIndex: 0,
+                score: 0,
+                correctCount: 0,
+                wrongCount: 0,
+                answers: [],
+                isAnswered: false,
+                completed: false,
+                startTime: null,
+                durationSeconds: 0,
+                submittedToSheets: false
+            };
+            document.getElementById('inputStudentName').value = "";
+            navigateTo('page-1', false);
+        }
+
+        /**
+         * =====================================================================
+         * 8. MINI AKTIVITAS (MATERI 4)
+         * =====================================================================
+         */
+        function checkMiniActivity(cardIndex, isCorrect) {
+            const cards = document.querySelectorAll('.mini-card');
+            const feedback = document.getElementById('miniActivityFeedback');
+
+            cards.forEach((card, idx) => {
+                card.classList.remove('border-emerald-500', 'bg-emerald-50', 'border-rose-500', 'bg-rose-50');
+                if (idx === cardIndex) {
+                    if (isCorrect) {
+                        card.classList.add('border-emerald-500', 'bg-emerald-50');
+                    } else {
+                        card.classList.add('border-rose-500', 'bg-rose-50');
+                    }
+                }
+            });
+
+            feedback.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-800', 'bg-rose-100', 'text-rose-800');
+            if (isCorrect) {
+                playCorrect();
+                feedback.classList.add('bg-emerald-100', 'text-emerald-800');
+                feedback.innerHTML = "🎉 Tepat sekali! Menyapu kelas sesuai jadwal piket adalah bentuk tanggung jawab terhadap kebersihan kelas.";
+            } else {
+                playWrong();
+                feedback.classList.add('bg-rose-100', 'text-rose-800');
+                feedback.innerHTML = "🤔 Kurang tepat! Tindakan itu menunjukkan sikap kurang bertanggung jawab. Coba pilih kartu yang lain!";
+            }
+        }
+
+        /**
+         * =====================================================================
+         * 9. VIDEO PEMBELAJARAN (YOUTUBE EMBED PARSER)
+         * =====================================================================
+         */
+        function extractYouTubeID(url) {
+            if (!url || url === "MASUKKAN_LINK_VIDEO_DI_SINI") return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function initVideoPage() {
+            const videoId = extractYouTubeID(VIDEO_URL);
+            const placeholder = document.getElementById('videoPlaceholder');
+            const iframe = document.getElementById('youtubeIframe');
+
+            if (videoId) {
+                placeholder.classList.add('hidden');
+                iframe.classList.remove('hidden');
+                if (!iframe.src.includes(videoId)) {
+                    iframe.src = `https://www.youtube.com/embed/${videoId}?rel=0`;
+                }
+            } else {
+                placeholder.classList.remove('hidden');
+                iframe.classList.add('hidden');
+            }
+        }
+
+        function loadCustomVideo() {
+            const inputUrl = document.getElementById('customVideoInput').value.trim();
+            const targetUrl = inputUrl || VIDEO_URL;
+            const videoId = extractYouTubeID(targetUrl);
+
+            if (!videoId) {
+                showToast("Link YouTube belum valid atau belum diisi.", "warning");
+                return;
+            }
+
+            const placeholder = document.getElementById('videoPlaceholder');
+            const iframe = document.getElementById('youtubeIframe');
+            placeholder.classList.add('hidden');
+            iframe.classList.remove('hidden');
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            showToast("Memutar video pembelajaran...", "success");
+        }
+
+        /**
+         * =====================================================================
+         * 10. SISTEM QUIZ INTERAKTIF (10 SOAL & SKOR OTOMATIS)
+         * =====================================================================
+         */
+        function startQuiz() {
+            if (appState.quiz.completed) {
+                navigateTo('page-result');
+                return;
+            }
+            if (!appState.quiz.startTime) {
+                appState.quiz.startTime = Date.now();
+            }
+            saveState();
+            navigateTo('page-quiz');
+        }
+
+        function retakeQuiz() {
+            appState.quiz = {
+                currentIndex: 0,
+                score: 0,
+                correctCount: 0,
+                wrongCount: 0,
+                answers: [],
+                isAnswered: false,
+                completed: false,
+                startTime: Date.now(),
+                durationSeconds: 0,
+                submittedToSheets: false
+            };
+            saveState();
+            navigateTo('page-quiz');
+        }
+
+        function renderQuizQuestion() {
+            const qIndex = appState.quiz.currentIndex;
+            const total = QUIZ_QUESTIONS.length;
+
+            if (qIndex >= total) {
+                finishQuiz();
+                return;
+            }
+
+            const qData = QUIZ_QUESTIONS[qIndex];
+            const progressPercent = ((qIndex + 1) / total) * 100;
+
+            document.getElementById('quizCounterText').textContent = `SOAL ${qIndex + 1}/${total}`;
+            document.getElementById('liveQuizScore').textContent = appState.quiz.score;
+            document.getElementById('quizProgressBar').style.width = `${progressPercent}%`;
+            document.getElementById('quizTopicBadge').textContent = `Topik: ${qData.topic}`;
+            document.getElementById('quizQuestionText').textContent = qData.question;
+
+            const optionsContainer = document.getElementById('quizOptionsContainer');
+            optionsContainer.innerHTML = '';
+
+            const letters = ['A', 'B', 'C', 'D'];
+            const previousChoice = appState.quiz.answers[qIndex];
+            const alreadyAnswered = previousChoice !== undefined;
+
+            qData.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = "w-full text-left p-4 md:p-5 rounded-2xl border-3 font-bold text-base md:text-lg transition flex items-center gap-4 cursor-pointer shadow-sm ";
+
+                if (!alreadyAnswered) {
+                    btn.className += "bg-white hover:bg-sky-50 border-slate-200 hover:border-sky-400 text-slate-800";
+                    btn.onclick = () => selectQuizAnswer(optIdx);
+                } else {
+                    btn.disabled = true;
+                    if (optIdx === qData.correctIndex) {
+                        btn.className += "bg-emerald-100 border-emerald-500 text-emerald-900";
+                    } else if (optIdx === previousChoice && previousChoice !== qData.correctIndex) {
+                        btn.className += "bg-rose-100 border-rose-500 text-rose-900";
+                    } else {
+                        btn.className += "bg-slate-50 border-slate-200 text-slate-400";
+                    }
+                }
+
+                btn.innerHTML = `
+                    <span class="w-10 h-10 rounded-xl flex items-center justify-center font-cartoon text-lg shrink-0 ${
+                        alreadyAnswered && optIdx === qData.correctIndex
+                            ? 'bg-emerald-500 text-white'
+                            : alreadyAnswered && optIdx === previousChoice
+                            ? 'bg-rose-500 text-white'
+                            : 'bg-sky-100 text-sky-700'
+                    }">${letters[optIdx]}</span>
+                    <span>${optText}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+
+            // Handle Feedback Box & Next Button State
+            const feedbackBox = document.getElementById('quizFeedbackBox');
+            const btnNext = document.getElementById('btnNextQuestion');
+            const btnNextText = document.getElementById('btnNextQuestionText');
+
+            btnNextText.textContent = (qIndex === total - 1) ? "Lihat Hasil Akhir" : "Soal Berikutnya";
+
+            if (alreadyAnswered) {
+                const isCorrect = previousChoice === qData.correctIndex;
+                showQuizFeedback(isCorrect, qData.explanation);
+                btnNext.disabled = false;
+            } else {
+                feedbackBox.classList.add('hidden');
+                btnNext.disabled = true;
+            }
+        }
+
+        function selectQuizAnswer(selectedIndex) {
+            const qIndex = appState.quiz.currentIndex;
+            if (appState.quiz.answers[qIndex] !== undefined) return; // cegah klik ganda
+
+            const qData = QUIZ_QUESTIONS[qIndex];
+            const isCorrect = (selectedIndex === qData.correctIndex);
+
+            appState.quiz.answers[qIndex] = selectedIndex;
+
+            if (isCorrect) {
+                appState.quiz.score += 10;
+                appState.quiz.correctCount += 1;
+                playCorrect();
+            } else {
+                appState.quiz.wrongCount += 1;
+                playWrong();
+            }
+
+            saveState();
+            renderQuizQuestion();
+        }
+
+        function showQuizFeedback(isCorrect, explanation) {
+            const box = document.getElementById('quizFeedbackBox');
+            const emoji = document.getElementById('feedbackEmoji');
+            const title = document.getElementById('feedbackTitle');
+            const exp = document.getElementById('feedbackExplanation');
+
+            box.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-400', 'text-emerald-900', 'bg-rose-50', 'border-rose-400', 'text-rose-900');
+
+            if (isCorrect) {
+                box.classList.add('bg-emerald-50', 'border-emerald-400', 'text-emerald-900');
+                emoji.textContent = "🌟";
+                title.textContent = "Hebat! Jawabanmu Benar (+10 Poin)";
+            } else {
+                box.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-900');
+                emoji.textContent = "💡";
+                title.textContent = "Belum Tepat, Yuk Pelajari Penjelasannya!";
+            }
+            exp.textContent = explanation;
+        }
+
+        function nextQuestion() {
+            const qIndex = appState.quiz.currentIndex;
+            if (appState.quiz.answers[qIndex] === undefined) {
+                showToast("Pilih salah satu jawaban terlebih dahulu!", "warning");
+                return;
+            }
+
+            if (qIndex + 1 < QUIZ_QUESTIONS.length) {
+                appState.quiz.currentIndex += 1;
+                saveState();
+                renderQuizQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            if (!appState.quiz.completed) {
+                appState.quiz.completed = true;
+                const endTime = Date.now();
+                const startTime = appState.quiz.startTime || endTime;
+                appState.quiz.durationSeconds = Math.max(1, Math.round((endTime - startTime) / 1000));
+                saveState();
+            }
+            playVictory();
+            navigateTo('page-result');
+        }
+
+        /**
+         * =====================================================================
+         * 11. HALAMAN HASIL & PREDIKAT
+         * =====================================================================
+         */
+        function getPredicateInfo(score) {
+            if (score >= 90) {
+                return {
+                    label: "🌟 SANGAT BAIK",
+                    motivation: "Luar biasa! Kamu sudah sangat memahami peran, tugas, tanggung jawab, dan interaksi sosial di lingkungan sekitar."
+                };
+            } else if (score >= 80) {
+                return {
+                    label: "👍 BAIK",
+                    motivation: "Hebat! Pemahamanmu tentang peran, tanggung jawab, dan interaksi sosial sudah baik. Terus pertahankan!"
+                };
+            } else if (score >= 70) {
+                return {
+                    label: "😊 CUKUP",
+                    motivation: "Bagus! Kamu sudah cukup memahami materi. Yuk baca kembali materi agar nilaimu semakin tinggi!"
+                };
+            } else {
+                return {
+                    label: "💪 TERUS BERLATIH",
+                    motivation: "Jangan menyerah! Ayo pelajari kembali kartu materi dan ulangi kuisnya agar kamu semakin paham."
+                };
+            }
+        }
+
+        function formatDuration(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return mins > 0 ? `${mins}m ${secs}d` : `${secs} detik`;
+        }
+
+        function renderResultPage() {
+            const score = appState.quiz.score;
+            const predInfo = getPredicateInfo(score);
+
+            document.getElementById('resStudentName').textContent = appState.studentName;
+            document.getElementById('resStudentClass').textContent = `Kelas ${appState.studentClass}`;
+            document.getElementById('resScore').textContent = score;
+            document.getElementById('resCorrect').textContent = appState.quiz.correctCount;
+            document.getElementById('resWrong').textContent = appState.quiz.wrongCount;
+            document.getElementById('resDuration').textContent = formatDuration(appState.quiz.durationSeconds);
+            document.getElementById('resPredicate').textContent = predInfo.label;
+            document.getElementById('resMotivation').textContent = `"${predInfo.motivation}"`;
+
+            // Confetti jika nilai tinggi (>= 80)
+            if (score >= 80 && typeof confetti === 'function') {
+                confetti({
+                    particleCount: 90,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            // Atur tombol KIRIM HASIL (cegah pengiriman ulang jika sudah terkirim)
+            const btnSubmit = document.getElementById('btnSubmitResult');
+            const statusBox = document.getElementById('submissionStatusBox');
+            const statusTitle = document.getElementById('submissionStatusTitle');
+            const statusDesc = document.getElementById('submissionStatusDesc');
+
+            if (appState.quiz.submittedToSheets) {
+                btnSubmit.disabled = true;
+                btnSubmit.classList.remove('pulse-highlight');
+                btnSubmit.innerHTML = `<span>✅</span> SUDAH TERKIRIM`;
+
+                statusBox.classList.remove('hidden', 'bg-rose-50', 'border-rose-300', 'text-rose-800');
+                statusBox.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
+                statusTitle.textContent = "✅ HASIL BERHASIL TERKIRIM!";
+                statusDesc.textContent = "Data hasil kuismu telah tersimpan.";
+            } else {
+                btnSubmit.disabled = false;
+                btnSubmit.classList.add('pulse-highlight');
+                btnSubmit.innerHTML = `<span>📊</span> KIRIM HASIL`;
+                statusBox.classList.add('hidden');
+            }
+        }
+
+        /**
+         * =====================================================================
+         * 12. INTEGRASI GOOGLE SPREADSHEET (POST KE GOOGLE APPS SCRIPT)
+         * =====================================================================
+         */
+        async function submitResultToGoogleSheets() {
+            // Validasi 1: Cegah pengiriman ganda dalam 1 sesi
+            if (appState.quiz.submittedToSheets) {
+                showToast("Hasil kuismu sudah dikirim sebelumnya!", "info");
+                return;
+            }
+
+            // Validasi 2: Pastikan nama dan quiz valid
+            if (!appState.studentName || !appState.quiz.completed) {
+                showToast("Data siswa atau quiz belum lengkap!", "error");
+                return;
+            }
+
+            // Validasi 3: Cek apakah URL Google Apps Script sudah dikonfigurasi
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "MASUKKAN_URL_WEB_APP_GOOGLE_APPS_SCRIPT_DI_SINI" || !GOOGLE_SCRIPT_URL.startsWith("http")) {
+                showSubmissionResult(
+                    false,
+                    "❌ DATA BELUM TERKIRIM",
+                    "URL Google Apps Script belum diatur oleh guru. Silakan periksa konfigurasi GOOGLE_SCRIPT_URL."
+                );
+                return;
+            }
+
+            const btnSubmit = document.getElementById('btnSubmitResult');
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = `<span>⏳</span> MENGIRIM DATA...`;
+
+            const totalSoal = QUIZ_QUESTIONS.length;
+            const nilai = Number(appState.quiz.score);
+            const benar = Number(appState.quiz.correctCount);
+            const salah = Number(appState.quiz.wrongCount);
+            const persentase = `${Math.round((benar / totalSoal) * 100)}%`;
+            const waktu = formatDuration(appState.quiz.durationSeconds);
+            const predikat = getPredicateInfo(nilai).label;
+
+            // Siapkan payload data sesuai kolom Spreadsheet
+            const payload = {
+                timestamp: new Date().toLocaleString('id-ID'),
+                nama: appState.studentName,
+                kelas: appState.studentClass,
+                nilai: nilai,
+                benar: benar,
+                salah: salah,
+                persentase: persentase,
+                waktu: waktu,
+                predikat: predikat
+            };
+
+            try {
+                // Menggunakan POST dengan Content-Type text/plain agar terhindar dari CORS preflight block pada Google Apps Script
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result && result.status === "success") {
+                    appState.quiz.submittedToSheets = true;
+                    saveState();
+                    playCorrect();
+                    btnSubmit.classList.remove('pulse-highlight');
+                    btnSubmit.innerHTML = `<span>✅</span> SUDAH TERKIRIM`;
+                    showSubmissionResult(
+                        true,
+                        "✅ HASIL BERHASIL TERKIRIM!",
+                        "Data hasil kuismu telah tersimpan."
+                    );
+                } else {
+                    throw new Error(result.message || "Respon server tidak valid");
+                }
+            } catch (error) {
+                console.error("Gagal mengirim data ke Google Sheets:", error);
+                playWrong();
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = `<span>📊</span> KIRIM HASIL`;
+                showSubmissionResult(
+                    false,
+                    "❌ DATA BELUM TERKIRIM",
+                    "Periksa koneksi internet dan coba lagi."
+                );
+            }
+        }
+
+        function showSubmissionResult(isSuccess, titleText, descText) {
+            const statusBox = document.getElementById('submissionStatusBox');
+            const statusTitle = document.getElementById('submissionStatusTitle');
+            const statusDesc = document.getElementById('submissionStatusDesc');
+
+            statusBox.classList.remove('hidden', 'bg-emerald-50', 'border-emerald-300', 'text-emerald-800', 'bg-rose-50', 'border-rose-300', 'text-rose-800');
+
+            if (isSuccess) {
+                statusBox.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-800');
+                showToast("Hasil berhasil dikirim ke Google Spreadsheet!", "success");
+            } else {
+                statusBox.classList.add('bg-rose-50', 'border-rose-300', 'text-rose-800');
+                showToast("Data belum terkirim. Periksa koneksi internet.", "error");
+            }
+
+            statusTitle.textContent = titleText;
+            statusDesc.textContent = descText;
+        }
+
+        /**
+         * =====================================================================
+         * 13. INISIALISASI SAAT HALAMAN DIMUAT
+         * =====================================================================
+         */
+        window.addEventListener('DOMContentLoaded', () => {
+            loadState();
+
+            // Sinkronkan tombol sound
+            document.getElementById('btnSoundToggle').textContent = appState.soundEnabled ? '🔊' : '🔇';
+
+            // Jika ada nama siswa tersimpan di LocalStorage, pulihkan sesi
+            if (appState.studentName && appState.studentName.trim().length >= 2) {
+                document.getElementById('inputStudentName').value = appState.studentName;
+                document.getElementById('inputStudentClass').value = appState.studentClass || '4A';
+                const resumePage = (appState.currentPage && appState.currentPage !== 'page-1') ? appState.currentPage : 'page-2';
+                navigateTo(resumePage, false);
+            } else {
+                navigateTo('page-1', false);
+            }
+        });
+    </script>
+</body>
+</html>
